@@ -28,25 +28,38 @@ class ResumeApp extends connect(store)(LitElement) {
   protected render() {
     // Anything that's related to rendering should be done in here.
     return html`
-      <style>
-        :host {
+      <style>:host {
           --app-drawer-width: 256px;
           display: block;
 
-          --app-primary-color: #e91e63;
+          /* New theme */
+          --resume-dark-primary-color: #d32f2f;
+          --resume-default-primary-color: #f44336;
+          --resume-light-primary-color: #ffcdd2;
+          --resume-text-primary-color: #ffffff;
+          --resume-accent-color: #ff9800;
+          --resume-primary-background-color: #ffcdd2;
+          --resume-primary-text-color: #212121;
+          --resume-secondary-text-color: #757575;
+          --resume-disabled-text-color: #bdbdbd;
+          --resume-divider-color: #bdbdbd;
+
+          --app-primary-color: var(--resume-default-primary-color);
           --app-secondary-color: #293237;
-          --app-dark-text-color: var(--app-secondary-color);
+          --app-dark-text-color: var(--resume-secondary-text-color);
           --app-light-text-color: white;
-          --app-section-even-color: #f7f7f7;
+          --app-section-even-color: var(--resume-divider-color);
           --app-section-odd-color: white;
 
-          --app-header-background-color: white;
-          --app-header-text-color: var(--app-dark-text-color);
-          --app-header-selected-color: var(--app-primary-color);
+          /* Header */
+          --app-header-background-color: var(--resume-default-primary-color);
+          --app-header-text-color: var(--resume-light-primary-color);
+          --app-header-selected-color: var(--resume-text-primary-color);
 
-          --app-drawer-background-color: var(--app-secondary-color);
-          --app-drawer-text-color: var(--app-light-text-color);
-          --app-drawer-selected-color: #78909c;
+          /* Drawer */
+          --app-drawer-background-color: var(--resume-default-primary-color);
+          --app-drawer-text-color: var(--resume-light-primary-color);
+          --app-drawer-selected-color: var(--resume-text-primary-color);
         }
 
         app-header {
@@ -66,11 +79,11 @@ class ResumeApp extends connect(store)(LitElement) {
 
         [main-title] {
           font-family: 'Pacifico';
-          text-transform: lowercase;
+          text-transform: capitalize;
           font-size: 30px;
           /* In the narrow layout, the toolbar is offset by the width of the
-        drawer button, and the text looks not centered. Add a padding to
-        match that button */
+                drawer button, and the text looks not centered. Add a padding to
+                match that button */
           padding-right: 44px;
         }
 
@@ -119,6 +132,8 @@ class ResumeApp extends connect(store)(LitElement) {
 
         .drawer-list > a[selected] {
           color: var(--app-drawer-selected-color);
+          background-color: var(--resume-dark-primary-color);
+          font-size: 1.5em;
         }
 
         /* Workaround for IE11 displaying <main> as inline */
@@ -147,9 +162,8 @@ class ResumeApp extends connect(store)(LitElement) {
         }
 
         /* Wide layout: when the viewport width is bigger than 460px, layout
-      changes to a wide layout. */
-        @media (min-width: 460px) {
-          .toolbar-list {
+              changes to a wide layout. */
+        @media (min-width: 460px) {.toolbar-list {
             display: block;
           }
 
@@ -162,53 +176,30 @@ class ResumeApp extends connect(store)(LitElement) {
           }
 
           /* The drawer button isn't shown in the wide layout, so we don't
-        need to offset the title */
+                need to offset the title */
           [main-title] {
             padding-right: 0px;
-          }
-        }
-      </style>
+          }}</style>
 
       <!-- Header -->
-      <app-header condenses reveals effects="waterfall">
-        <app-toolbar class="toolbar-top">
-          <button class="menu-btn" title="Menu" @click="${this._menuButtonClicked}">
-            ${menuIcon}
-          </button>
-          <div main-title>${this.appTitle}</div>
-        </app-toolbar>
+      <app-header condenses reveals effects="waterfall"> <app-toolbar class="toolbar-top"> <button class="menu-btn" title="Menu" @click="${this._menuButtonClicked}">${menuIcon}</button>
+          <div main-title>${this.appTitle}</div> </app-toolbar>
 
         <!-- This gets hidden on a small screen -->
-        <nav class="toolbar-list">
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
-        </nav>
-      </app-header>
+        <nav class="toolbar-list"><a ?selected="${this._page === 'view1'}" href="/view1">View One</a> <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a> <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a></nav> </app-header>
 
       <!-- Drawer content -->
-      <app-drawer .opened="${this._drawerOpened}" @opened-changed="${this._drawerOpenedChanged}">
-        <nav class="drawer-list">
-          <a ?selected="${this._page === 'view1'}" href="/view1">View One</a>
-          <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a>
-          <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a>
-        </nav>
-      </app-drawer>
+      <app-drawer .opened="${this._drawerOpened}" @opened-changed="${this._drawerOpenedChanged}"> <nav class="drawer-list"><a ?selected="${this._page === 'view1'}" href="/view1">View One</a> <a ?selected="${this._page === 'view2'}" href="/view2">View Two</a> <a ?selected="${this._page === 'view3'}" href="/view3">View Three</a></nav> </app-drawer>
 
       <!-- Main content -->
-      <main role="main" class="main-content">
-        <resume-view1 class="page" ?active="${this._page === 'view1'}"></resume-view1>
+      <main role="main" class="main-content"><resume-view1 class="page" ?active="${this._page === 'view1'}"></resume-view1>
         <resume-view2 class="page" ?active="${this._page === 'view2'}"></resume-view2>
         <resume-view3 class="page" ?active="${this._page === 'view3'}"></resume-view3>
-        <resume-view404 class="page" ?active="${this._page === 'view404'}"></resume-view404>
-      </main>
+        <resume-view404 class="page" ?active="${this._page === 'view404'}"></resume-view404></main>
 
       <footer><p>Made with &hearts; by the Polymer team.</p></footer>
 
-      <snack-bar ?active="${this._snackbarOpened}">
-        You are now ${this._offline ? 'offline' : 'online'}.</snack-bar
-      >
-    `;
+      <snack-bar ?active="${this._snackbarOpened}"> You are now ${this._offline ? 'offline' : 'online'}.</snack-bar>`;
   }
 
   @property({ type: String })
