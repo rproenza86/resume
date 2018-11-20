@@ -21,7 +21,7 @@ Portfolio PWA with the following features:
 
 ## TODOs
 
-- [] Setup Travis tests.
+- [X] Setup Travis tests.
 - [] Update theme.
 - [] Update Sections name and content.
-- [ ] Update to latest [Material Web Components]
+- [] Update to latest [Material Web Components]

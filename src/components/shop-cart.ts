@@ -15,7 +15,7 @@ import { connect } from 'pwa-helpers/connect-mixin.js';
 import { store, RootState } from '../store.js';
 
 // These are the elements needed by this element.
-import { removeFromCartIcon } from './my-icons.js';
+import { removeFromCartIcon } from './resume-icons.js';
 import './shop-item.js';
 
 // These are the actions needed by this element.
